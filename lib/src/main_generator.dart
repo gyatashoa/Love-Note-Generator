@@ -10,8 +10,11 @@ import 'package:screenshot/screenshot.dart';
 
 import 'widgets.dart';
 
-Future<Uint8List> generateImageNoteWithUserImage(GenerationModel model) async {
-  return await compute(_generateImageNoteWithUserImage, model);
+Future<Uint8List> generateImageNoteWithUserImage(GenerationModel model,
+    {bool useThread = false}) async {
+  return useThread
+      ? await compute(_generateImageNoteWithUserImage, model)
+      : await _generateImageNoteWithUserImage(model);
 }
 
 Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
