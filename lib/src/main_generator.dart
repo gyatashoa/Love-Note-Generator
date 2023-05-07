@@ -17,6 +17,15 @@ Future<Uint8List> generateImageNoteWithUserImage(GenerationModel model,
       : await _generateImageNoteWithUserImage(model);
 }
 
+Future<Uint8List> generateImageNoteWithUserImageV2(
+    {required String text,
+    required ImageProvider userImage,
+    required Widget noteImage}) async {
+  ScreenshotController controller = ScreenshotController();
+  return await controller.captureFromWidget(FullGenerationWidget(
+      userImage: userImage, noteImage: noteImage, text: text));
+}
+
 Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   final user = model.user;
   final note = model.note;

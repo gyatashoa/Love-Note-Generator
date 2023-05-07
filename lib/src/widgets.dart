@@ -32,3 +32,49 @@ class NoteImage extends StatelessWidget {
     );
   }
 }
+
+class FullGenerationWidget extends StatelessWidget {
+  const FullGenerationWidget(
+      {super.key,
+      required this.userImage,
+      required this.noteImage,
+      required this.text});
+  final ImageProvider userImage;
+  final Widget noteImage;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        noteImage,
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset('assets/headshot_placeholder.png'),
+            Container(
+              height: 160,
+              width: 160,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 8),
+                  image: DecorationImage(
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.cover,
+                      image: userImage),
+                  shape: BoxShape.circle),
+            ),
+            Positioned(
+              bottom: 200,
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.red, fontSize: 50),
+                child: Text(
+                  text,
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+}
