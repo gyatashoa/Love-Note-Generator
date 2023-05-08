@@ -38,15 +38,13 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   if (userImage == null || text == null) {
     throw LoveNoteGenerationError();
   }
-
-  return await compute(
-      _generate,
-      _Model(
-          note: note,
-          quality: model.quality,
-          placeholder: bytes,
-          text: text,
-          image: userImage));
+  final data = _Model(
+      note: note,
+      quality: model.quality,
+      placeholder: bytes,
+      text: text,
+      image: userImage);
+  return await compute(_generate, data);
 }
 
 Future<Uint8List> _generate(_Model model) async {
