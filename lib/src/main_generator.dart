@@ -30,7 +30,7 @@ Future<Uint8List> generateImageNoteWithUserImageV2(
 
 Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   final user = model.user;
-  final note = model.note;
+  final note = await ImagesMergeHelper.loadImageFromProvider(model.note);
   final username = model.username;
   final userImage = await _getUserAvatar(user);
   ByteData bytes = await rootBundle.load('assets/headshot_placeholder.png');
@@ -42,7 +42,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   return await compute(
       _generate,
       _Model(
-          note: model.note,
+          note: note,
           quality: model.quality,
           placeholder: bytes,
           text: text,
@@ -60,9 +60,9 @@ Future<Uint8List> _generate(_Model model) async {
       dstX: (headshotWithUserImage.width - model.text.width) ~/ 2,
       dstY: (headshotWithUserImage.height - model.text.height) ~/ 1.2);
 
+  // img.decodeImage(data)
   ui.Image image = await ImagesMergeHelper.margeImages([
-    await ImagesMergeHelper.loadImageFromProvider(
-        NetworkImage((model.note as NetworkImage).url)),
+    model.note,
     await ImagesMergeHelper.loadImageFromProvider(MemoryImage(img.encodePng(
         headshotWithTextImage,
         level: 2,
@@ -109,7 +109,7 @@ class _Model {
   final img.Image text;
   final img.Image image;
   final int quality;
-  final ImageProvider note;
+  final ui.Image note;
 
   _Model(
       {required this.placeholder,
@@ -117,4 +117,32 @@ class _Model {
       required this.note,
       required this.text,
       required this.image});
+}
+
+Future<ui.Image> _convertImageToFlutterUi(img.Image image) async {
+  if (image.format != img.Format.uint8 || image.numChannels != 4) {
+    final cmd = img.Command()
+      ..image(image)
+      ..convert(format: img.Format.uint8, numChannels: 4);
+    final rgba8 = await cmd.getImageThread();
+    if (rgba8 != null) {
+      image = rgba8;
+    }
+  }
+
+  ui.ImmutableBuffer buffer =
+      await ui.ImmutableBuffer.fromUint8List(image.toUint8List());
+
+  ui.ImageDescriptor id = ui.ImageDescriptor.raw(buffer,
+      height: image.height,
+      width: image.width,
+      pixelFormat: ui.PixelFormat.rgba8888);
+
+  ui.Codec codec = await id.instantiateCodec(
+      targetHeight: image.height, targetWidth: image.width);
+
+  ui.FrameInfo fi = await codec.getNextFrame();
+  ui.Image uiImage = fi.image;
+
+  return uiImage;
 }
