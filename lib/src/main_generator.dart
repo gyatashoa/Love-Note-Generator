@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -31,8 +32,8 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   final note = model.note;
   final username = model.username;
   final userImage = await _getUserAvatar(user);
-  final headshotPlaceholderImage =
-      await img.decodeImageFile('assets/headshot_placeholder.png');
+  final headshotPlaceholderImage = img
+      .decodeImage(File('assets/headshot_placeholder.png').readAsBytesSync());
   final text = await _getTextImage(username);
   if (userImage == null || headshotPlaceholderImage == null || text == null) {
     throw LoveNoteGenerationError();
