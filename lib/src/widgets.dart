@@ -8,7 +8,8 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(color: Colors.red, fontSize: 200),
+      style: const TextStyle(
+          fontFamily: 'Carlsonscript', color: Colors.red, fontSize: 200),
     );
   }
 }
@@ -66,7 +67,10 @@ class FullGenerationWidget extends StatelessWidget {
             Positioned(
               bottom: 200,
               child: DefaultTextStyle(
-                style: const TextStyle(color: Colors.red, fontSize: 50),
+                style: const TextStyle(
+                    fontFamily: 'Carlsonscript',
+                    color: Colors.red,
+                    fontSize: 50),
                 child: Text(
                   text,
                 ),
