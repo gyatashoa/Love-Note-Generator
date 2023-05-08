@@ -50,7 +50,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
 }
 
 Future<Uint8List> _generate(_Model model) async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   final headshotPlaceholderImage =
       img.decodeImage(model.placeholder.buffer.asUint8List());
   final headshotWithUserImage =
