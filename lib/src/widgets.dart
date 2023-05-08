@@ -9,7 +9,10 @@ class TextWidget extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(
-          fontFamily: 'Carlsonscript', color: Colors.red, fontSize: 200),
+          package: 'love_note_generator',
+          fontFamily: 'Carlsonscript',
+          color: Colors.red,
+          fontSize: 80),
     );
   }
 }
