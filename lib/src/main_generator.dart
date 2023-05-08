@@ -34,19 +34,33 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   final username = model.username;
   final userImage = await _getUserAvatar(user);
   ByteData bytes = await rootBundle.load('assets/headshot_placeholder.png');
-  final headshotPlaceholderImage = img.decodeImage(bytes.buffer.asUint8List());
   final text = await _getTextImage(username, model.fontSize);
-  if (userImage == null || headshotPlaceholderImage == null || text == null) {
+  if (userImage == null || text == null) {
     throw LoveNoteGenerationError();
   }
+
+  return await compute(
+      _generate,
+      _Model(
+          note: model.note,
+          quality: model.quality,
+          placeholder: bytes,
+          text: text,
+          image: userImage));
+}
+
+Future<Uint8List> _generate(_Model model) async {
+  final headshotPlaceholderImage =
+      img.decodeImage(model.placeholder.buffer.asUint8List());
   final headshotWithUserImage =
-      img.compositeImage(headshotPlaceholderImage, userImage, center: true);
-  final headshotWithTextImage = img.compositeImage(headshotWithUserImage, text,
-      dstX: (headshotWithUserImage.width - text.width) ~/ 2,
-      dstY: (headshotWithUserImage.height - text.height) ~/ 1.2);
+      img.compositeImage(headshotPlaceholderImage!, model.image, center: true);
+  final headshotWithTextImage = img.compositeImage(
+      headshotWithUserImage, model.text,
+      dstX: (headshotWithUserImage.width - model.text.width) ~/ 2,
+      dstY: (headshotWithUserImage.height - model.text.height) ~/ 1.2);
 
   ui.Image image = await ImagesMergeHelper.margeImages([
-    await ImagesMergeHelper.loadImageFromProvider(note),
+    await ImagesMergeHelper.loadImageFromProvider(model.note),
     await ImagesMergeHelper.loadImageFromProvider(MemoryImage(img.encodePng(
         headshotWithTextImage,
         level: 2,
@@ -86,4 +100,19 @@ Future<img.Image?> _getTextImage(String name, double fontSize) async {
     fontSize: fontSize,
   );
   return img.decodeImage(await controller.captureFromWidget(temp));
+}
+
+class _Model {
+  final ByteData placeholder;
+  final img.Image text;
+  final img.Image image;
+  final int quality;
+  final ImageProvider note;
+
+  _Model(
+      {required this.placeholder,
+      required this.quality,
+      required this.note,
+      required this.text,
+      required this.image});
 }
