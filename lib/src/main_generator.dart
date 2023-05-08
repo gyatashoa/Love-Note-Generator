@@ -34,7 +34,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   final userImage = await _getUserAvatar(user);
   ByteData bytes = await rootBundle.load('assets/headshot_placeholder.png');
   final headshotPlaceholderImage = img.decodeImage(bytes.buffer.asUint8List());
-  final text = await _getTextImage(username);
+  final text = await _getTextImage(username, model.fontSize);
   if (userImage == null || headshotPlaceholderImage == null || text == null) {
     throw LoveNoteGenerationError();
   }
@@ -73,10 +73,11 @@ Future<img.Image?> _getUserAvatar(ImageProvider imageProvider) async {
   ));
 }
 
-Future<img.Image?> _getTextImage(String name) async {
+Future<img.Image?> _getTextImage(String name, double fontSize) async {
   ScreenshotController controller = ScreenshotController();
   final temp = TextWidget(
     text: name,
+    fontSize: fontSize,
   );
   return img.decodeImage(await controller.captureFromWidget(temp));
 }

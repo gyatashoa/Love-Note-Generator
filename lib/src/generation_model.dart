@@ -4,7 +4,11 @@ class GenerationModel {
   final ImageProvider user;
   final ImageProvider note;
   final String username;
+  final double fontSize;
 
   GenerationModel(
-      {required this.user, required this.note, required this.username});
+      {required this.user,
+      this.fontSize = 100,
+      required this.note,
+      required this.username});
 }

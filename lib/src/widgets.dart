@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class TextWidget extends StatelessWidget {
-  const TextWidget({super.key, required this.text});
+  const TextWidget({super.key, required this.text, required this.fontSize});
   final String text;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
           package: 'love_note_generator',
           fontFamily: 'Carlsonscript',
           color: Colors.red,
-          fontSize: 80),
+          fontSize: fontSize),
     );
   }
 }
@@ -27,7 +28,7 @@ class NoteImage extends StatelessWidget {
       height: 800,
       width: 800,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.red, width: 30),
+          border: Border.all(color: Colors.red, width: 15),
           image: DecorationImage(
               filterQuality: FilterQuality.high,
               fit: BoxFit.cover,
