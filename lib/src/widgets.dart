@@ -52,7 +52,10 @@ class FullGenerationWidget extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            Image.asset('assets/headshot_placeholder.png'),
+            Image.asset(
+              'assets/headshot_placeholder.png',
+              package: 'love_note_generator',
+            ),
             Container(
               height: 160,
               width: 160,
@@ -70,6 +73,7 @@ class FullGenerationWidget extends StatelessWidget {
                 style: const TextStyle(
                     fontFamily: 'Carlsonscript',
                     color: Colors.red,
+                    package: 'love_note_generator',
                     fontSize: 50),
                 child: Text(
                   text,
