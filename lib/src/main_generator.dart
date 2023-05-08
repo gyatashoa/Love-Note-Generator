@@ -44,7 +44,8 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
       placeholder: bytes,
       text: text,
       image: userImage);
-  return await compute(_generate, data);
+  //TODO: add multithreading tommorow
+  return await _generate(data);
 }
 
 Future<Uint8List> _generate(_Model model) async {
