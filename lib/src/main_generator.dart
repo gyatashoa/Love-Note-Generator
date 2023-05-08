@@ -46,8 +46,10 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
 
   ui.Image image = await ImagesMergeHelper.margeImages([
     await ImagesMergeHelper.loadImageFromProvider(note),
-    await ImagesMergeHelper.loadImageFromProvider(MemoryImage(
-        img.encodePng(headshotWithTextImage, filter: img.PngFilter.up)))
+    await ImagesMergeHelper.loadImageFromProvider(MemoryImage(img.encodePng(
+        headshotWithTextImage,
+        level: 2,
+        filter: img.PngFilter.none)))
   ], fit: true, direction: Axis.horizontal, backgroundColor: Colors.black26);
   final uiBytes = await image.toByteData();
 
@@ -56,7 +58,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
       height: image.height,
       bytes: uiBytes!.buffer,
       numChannels: 4);
-  return img.encodePng(res, filter: img.PngFilter.up);
+  return img.encodePng(res, level: 2, filter: img.PngFilter.none);
 }
 
 ///------------------------------------------------------------------------------///
