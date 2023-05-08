@@ -62,7 +62,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
   return await FlutterImageCompress.compressWithList(
       img.encodePng(res, level: 2, filter: img.PngFilter.none),
       format: CompressFormat.png,
-      quality: 50);
+      quality: model.quality);
 }
 
 ///------------------------------------------------------------------------------///
