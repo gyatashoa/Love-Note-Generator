@@ -50,6 +50,7 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
 }
 
 Future<Uint8List> _generate(_Model model) async {
+  WidgetsFlutterBinding.ensureInitialized();
   final headshotPlaceholderImage =
       img.decodeImage(model.placeholder.buffer.asUint8List());
   final headshotWithUserImage =
@@ -60,7 +61,8 @@ Future<Uint8List> _generate(_Model model) async {
       dstY: (headshotWithUserImage.height - model.text.height) ~/ 1.2);
 
   ui.Image image = await ImagesMergeHelper.margeImages([
-    await ImagesMergeHelper.loadImageFromProvider(model.note),
+    await ImagesMergeHelper.loadImageFromProvider(
+        NetworkImage((model.note as NetworkImage).url)),
     await ImagesMergeHelper.loadImageFromProvider(MemoryImage(img.encodePng(
         headshotWithTextImage,
         level: 2,
