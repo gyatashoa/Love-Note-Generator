@@ -14,6 +14,7 @@ dependencies:
   image: ^4.0.17
   screenshot: ^1.3.0
   merge_images: ^2.0.0-nullsafety
+  flutter_image_compress: ^2.0.1
 
 dev_dependencies:
   flutter_test:

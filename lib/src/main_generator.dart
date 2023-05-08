@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart' as img;
 import 'package:love_note_generator/src/generation_model.dart';
 import 'package:love_note_generator/src/love_note_generation_exception.dart';
@@ -58,7 +59,10 @@ Future<Uint8List> _generateImageNoteWithUserImage(GenerationModel model) async {
       height: image.height,
       bytes: uiBytes!.buffer,
       numChannels: 4);
-  return img.encodePng(res, level: 2, filter: img.PngFilter.none);
+  return await FlutterImageCompress.compressWithList(
+      img.encodePng(res, level: 2, filter: img.PngFilter.none),
+      format: CompressFormat.png,
+      quality: 50);
 }
 
 ///------------------------------------------------------------------------------///
