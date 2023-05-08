@@ -1,5 +1,6 @@
 # This is a generated file; do not edit or check into version control.
-path_provider=/home/felix/.pub-cache/hosted/pub.dev/path_provider-1.6.28/
-path_provider_linux=/home/felix/.pub-cache/hosted/pub.dev/path_provider_linux-0.0.1+2/
-path_provider_macos=/home/felix/.pub-cache/hosted/pub.dev/path_provider_macos-0.0.4+8/
-path_provider_windows=/home/felix/.pub-cache/hosted/pub.dev/path_provider_windows-0.0.5/
+path_provider=/home/felix/.pub-cache/hosted/pub.dev/path_provider-2.0.14/
+path_provider_android=/home/felix/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27/
+path_provider_foundation=/home/felix/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.2/
+path_provider_linux=/home/felix/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.10/
+path_provider_windows=/home/felix/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.6/
